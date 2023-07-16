@@ -1,42 +1,31 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
 
-// class UserRepo {
-//   FirebaseFirestore firestore = FirebaseFirestore.instance;
+import 'package:hive_flutter/adapters.dart';
 
-//   Future<List<String>> fetchLocations() async {
-//     CollectionReference collectionRef =
-//         firestore.collection('locationCollection');
+class UserRepo {
+  Box locationBox = Hive.box('locationBox');
 
-//     List<String> output = [];
+  updateLocationBox({required String location}) {
+    List locations = locationBox.get('locations', defaultValue: []);
 
-//     try {
-//       DocumentSnapshot snapshot = await collectionRef.doc('locations').get();
-//       if (snapshot.exists) {
-//         Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-//         List<dynamic> locationList = data?['locationNames'] ?? [];
-//         output = List<String>.from(locationList);
-//       }
-//     } catch (e) {}
+    locations.contains(location)
+        ? locations.remove(location)
+        : locations.add(location);
 
-//     return output;
-//   }
+    locationBox.put('locations', locations);
+  }
 
-//   Future<bool> pushLocation({required String location}) async {
-//     CollectionReference collectionRef =
-//         firestore.collection('locationCollection');
+  updateLocationBoxFromLocation({required String location}) {
+    List locations = locationBox.get('locations', defaultValue: []);
 
-//     bool output = false;
+    if (!locations.contains(location)) {
+      locations.add(location);
+      locationBox.put('locations', locations);
+    }
+  }
 
-//     try {
-//       collectionRef.doc('locations').update({
-//         'locationNames': FieldValue.arrayUnion([location])
-//       });
-//       output = true;
-//     } catch (e) {
-//       output = false;
-//     }
-
-//     return output;
-//   }
-// }
+  getLocations() {
+    return locationBox.get('locations', defaultValue: []);
+  }
+}

@@ -1,13 +1,20 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/view_models/services/user_repo.dart';
 
 class AllLocationsViewsController extends GetxController {
   RxList allCities = [].obs;
   RxList searchResults = [].obs;
+  RxList selectedLocations = [].obs;
+  UserRepo usrRepo = UserRepo();
+  RxBool isRefreshing = true.obs;
 
-  onInit() {
-    fetchCityData();
+  @override
+  onInit() async {
+    await fetchCityData();
+    await fetchSelectedData();
+    refresh();
   }
 
   fetchCityData() async {
@@ -17,11 +24,21 @@ class AllLocationsViewsController extends GetxController {
     allCities.value = data;
   }
 
-  updateCityData({required String input}) {
-    searchResults.value = allCities.value
+  fetchSelectedData() {
+    selectedLocations.value = usrRepo.getLocations();
+  }
+
+  updateSearchResults({required String input}) {
+    searchResults.value = allCities
         .where(
             (city) => city[0].toLowerCase().contains(formatInput(input: input)))
         .toList();
+  }
+
+  updateSelectedLocations({required String location}) async {
+    await usrRepo.updateLocationBox(location: location);
+    selectedLocations.value = usrRepo.getLocations();
+    print(selectedLocations);
   }
 
   resetSearch() {
@@ -30,5 +47,14 @@ class AllLocationsViewsController extends GetxController {
 
   formatInput({required String input}) {
     return input.removeAllWhitespace.toLowerCase();
+  }
+
+  @override
+  void refresh() async {
+    // TODO: implement refresh
+    super.refresh();
+    isRefreshing.value = true;
+    await Future.delayed(const Duration(microseconds: 1));
+    isRefreshing.value = false;
   }
 }

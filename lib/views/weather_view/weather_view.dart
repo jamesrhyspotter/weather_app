@@ -173,8 +173,8 @@ class WeatherView extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 return DelayedDisplay(
-                                    delay: Duration(
-                                        milliseconds: 1000 + (250 * index)),
+                                    delay:
+                                        Duration(milliseconds: (250 * index)),
                                     child: ForecastWidget(
                                       iconName:
                                           weatherData![index + 1].weather.icon,

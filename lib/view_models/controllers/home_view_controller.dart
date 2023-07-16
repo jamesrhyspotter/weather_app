@@ -6,7 +6,7 @@ import 'package:weather_app/view_models/services/user_repo.dart';
 import '../services/location_service.dart';
 
 class HomeViewController extends GetxController {
-  List<Color> colors = [Colors.pink, Colors.blue, Colors.orange, Colors.purple];
+  RxInt currentPageIndex = 1.obs;
   RxString locationName = RxString('');
   RxDouble lat = RxDouble(0);
   RxDouble lon = RxDouble(0);
@@ -15,6 +15,7 @@ class HomeViewController extends GetxController {
   // final UserRepo usrRepo = UserRepo();
   RxList<String> locations = <String>[].obs;
   RxBool isLoading = RxBool(true);
+  UserRepo usrRepo = UserRepo();
 
   @override
   onInit() async {
@@ -28,10 +29,26 @@ class HomeViewController extends GetxController {
     closestCity.value =
         await _locationService.estimateClosestCity(lat.value, lon.value);
 
+    usrRepo.updateLocationBoxFromLocation(location: closestCity.value);
+
     isLoading.value = false;
   }
 
   Future<List<String>> fetchLocations() async {
-    return [closestCity.value, 'Test'];
+    List cities = usrRepo.getLocations();
+    return [closestCity.value, ...cities];
+  }
+
+  updatePageIndex({required int index}) {
+    currentPageIndex.value = index;
+  }
+
+  @override
+  void refresh() async {
+    // TODO: implement refresh
+    super.refresh();
+    isLoading.value = true;
+    await Future.delayed(const Duration(microseconds: 1));
+    isLoading.value = false;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,23 +32,34 @@ class _AllLocationsState extends State<AllLocations> {
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.black,
-        body: SafeArea(
-          child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  SearchBox(
-                      controller: textCtrl,
-                      onSubmitted: (value) {},
-                      onChanged: (value) =>
-                          locCtrl.updateCityData(input: value)),
-                  ResultsList(
-                      data: locCtrl.searchResults.isEmpty
-                          ? locCtrl.allCities
-                          : locCtrl.searchResults)
-                ],
-              )),
-        ),
+        body: locCtrl.isRefreshing.value
+            ? const Center(child: CircularProgressIndicator())
+            : SafeArea(
+                child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        SearchBox(
+                            controller: textCtrl,
+                            onSubmitted: (value) {},
+                            onChanged: (value) =>
+                                locCtrl.updateSearchResults(input: value)),
+                        ResultsList(
+                          data: locCtrl.searchResults.isEmpty
+                              ? locCtrl.allCities
+                              : locCtrl.searchResults,
+                          isSelected: locCtrl.selectedLocations
+                              .contains(locCtrl.allCities[0][0]),
+                          onToggle: (value) {
+                            locCtrl.updateSelectedLocations(location: value);
+                            print(locCtrl.selectedLocations);
+                            print(locCtrl.allCities[0][0]);
+                            locCtrl.refresh();
+                          },
+                        )
+                      ],
+                    )),
+              ),
       ),
     );
   }
