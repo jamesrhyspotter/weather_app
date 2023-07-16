@@ -167,7 +167,7 @@ class WeatherView extends StatelessWidget {
                           style: h3,
                         ),
                         SizedBox(
-                          height: 100,
+                          height: 120,
                           child: ListView.builder(
                               itemCount: 4,
                               scrollDirection: Axis.horizontal,
@@ -176,6 +176,8 @@ class WeatherView extends StatelessWidget {
                                     delay: Duration(
                                         milliseconds: 1000 + (250 * index)),
                                     child: ForecastWidget(
+                                      iconName:
+                                          weatherData![index + 1].weather.icon,
                                       data1:
                                           '${weatherData![index + 1].maxTemp}°',
                                       data2:

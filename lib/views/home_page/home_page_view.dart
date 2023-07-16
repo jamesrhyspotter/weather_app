@@ -14,35 +14,42 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ctrl.onInit();
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: FutureBuilder<List<String>>(
-          future: ctrl.fetchLocations(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting ||
-                ctrl.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              var locations = snapshot.data;
-              return CarouselSlider(
-                  options: CarouselOptions(
-                      enableInfiniteScroll: false,
-                      viewportFraction: 1.0,
-                      pageSnapping: true,
-                      height: MediaQuery.of(context).size.height),
-                  items: [
-                    ...locations!
-                        .map(
-                            (loc) => WeatherView(city: loc, color: Colors.pink))
-                        .toList(),
-                    AllLocations(locations: locations)
-                  ]);
-            }
+    return Obx(
+      () => Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(alignment: AlignmentDirectional.center, children: [
+          ctrl.isLoading.value
+              ? const Positioned(top: 0, child: CircularProgressIndicator())
+              : const SizedBox(),
+          FutureBuilder<List<String>>(
+              future: ctrl.fetchLocations(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    ctrl.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  var locations = snapshot.data;
+                  return CarouselSlider(
+                      options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          viewportFraction: 1.0,
+                          pageSnapping: true,
+                          height: MediaQuery.of(context).size.height),
+                      items: [
+                        ...locations!
+                            .map((loc) =>
+                                WeatherView(city: loc, color: Colors.pink))
+                            .toList(),
+                        AllLocations(locations: locations)
+                      ]);
+                }
 
-            return const Center(child: Text('Error Retreving data'));
-          }),
+                return const Center(child: Text('Error Retreving data'));
+              }),
+        ]),
+      ),
     );
   }
 }

@@ -39,7 +39,7 @@ List<WeatherDayModel> createDummyForecast() {
       weather: WeatherModel(
         description: 'Sunny',
         code: 800,
-        icon: '01d',
+        icon: 'a01d',
       ),
       windCdir: 'SW',
       windCdirFull: 'southwest',

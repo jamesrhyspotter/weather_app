@@ -8,6 +8,10 @@ import '../../models/weather_model.dart';
 class WeatherApiService {
   String apiKey = '0a70eafca2094128b646cd9c500e42dc';
 
+  Future<http.Response> httpGet(Uri url) {
+    return http.get(url);
+  }
+
   Future<List<WeatherDayModel>> fetchWeatherData(
       {required String city, required int count}) async {
     List<WeatherDayModel> output = [];

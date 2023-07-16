@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:weather_app/view_models/controllers/home_view_controller.dart';
 import 'package:weather_app/views/all_locations/widgets/search_box.dart';
 
+import '../theme/type_face.dart';
+
 class AllLocations extends StatefulWidget {
   final List<String> locations;
   AllLocations({super.key, required this.locations});
@@ -21,6 +23,7 @@ class _AllLocationsState extends State<AllLocations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -34,11 +37,14 @@ class _AllLocationsState extends State<AllLocations> {
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.only(top: 10),
                       itemCount: widget.locations.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
-                          title: Text(widget.locations[index]),
+                          title: Text(
+                            widget.locations[index],
+                            style: b1.copyWith(color: Colors.pink),
+                          ),
                         );
                       }),
                 ),
