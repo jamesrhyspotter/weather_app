@@ -6,10 +6,12 @@ import '../../theme/type_face.dart';
 class SearchBox extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onSubmitted;
+  final Function(String) onChanged;
 
   const SearchBox({
     required this.controller,
     required this.onSubmitted,
+    required this.onChanged,
     Key? key,
   }) : super(key: key);
 
@@ -32,6 +34,7 @@ class SearchBox extends StatelessWidget {
           ),
         ),
         onSubmitted: onSubmitted,
+        onChanged: onChanged,
       ),
     );
   }
