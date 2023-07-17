@@ -43,8 +43,11 @@ class HomePageView extends StatelessWidget {
                       items: [
                         AllLocations(locations: locations!),
                         ...locations
-                            .map((loc) =>
-                                WeatherView(city: loc, color: Colors.pink))
+                            .map((loc) => WeatherView(
+                                location: loc,
+                                lat: 0,
+                                lon: 0,
+                                color: Colors.pink))
                             .toList(),
                       ]),
                   Obx(

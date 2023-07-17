@@ -14,15 +14,22 @@ import 'package:weather_app/views/weather_widget_view/weather_grid_list.dart';
 import 'widgets/location_widget.dart';
 
 class WeatherView extends StatelessWidget {
-  final String city;
+  final String location;
+  final double lat;
+  final double lon;
   final Color color;
-  WeatherView({super.key, required this.city, required this.color});
+  WeatherView(
+      {super.key,
+      required this.location,
+      required this.lat,
+      required this.lon,
+      required this.color});
   final WeatherViewController ctrl = Get.put(WeatherViewController());
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
-      future: ctrl.fetchWeatherData(city: city),
+      future: ctrl.fetchWeatherData(city: location),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -42,7 +49,7 @@ class WeatherView extends StatelessWidget {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: LocationWidget(location: city),
+                    child: LocationWidget(location: weatherData![0].cityName),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(
@@ -61,7 +68,7 @@ class WeatherView extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Center(
                         child: Text(
-                      '${weatherData![0].weather.description}',
+                      '${weatherData![0].description}',
                       style: b1,
                     )),
                   ),
@@ -176,8 +183,7 @@ class WeatherView extends StatelessWidget {
                                     delay:
                                         Duration(milliseconds: (250 * index)),
                                     child: ForecastWidget(
-                                      iconName:
-                                          weatherData![index + 1].weather.icon,
+                                      iconName: weatherData![index + 1].icon,
                                       data1:
                                           '${weatherData![index + 1].maxTemp}°',
                                       data2:

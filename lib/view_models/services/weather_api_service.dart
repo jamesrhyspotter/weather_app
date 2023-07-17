@@ -8,27 +8,29 @@ import '../../models/weather_model.dart';
 class WeatherApiService {
   String apiKey = '0a70eafca2094128b646cd9c500e42dc';
 
-  Future<http.Response> httpGet(Uri url) {
-    return http.get(url);
-  }
-
-  Future<List<WeatherDayModel>> fetchWeatherData(
-      {required String city, required int count}) async {
-    List<WeatherDayModel> output = [];
+  Future<dynamic> fetchWeatherData(
+      {required double lat, required double lon, required int count}) async {
+    List output = [];
     try {
       var response = await http.get(Uri.parse(
-          'https://api.weatherbit.io/v2.0/forecast/daily?city=$city&key=$apiKey'));
+          'https://api.weatherbit.io/v2.0/forecast/daily?lat=38.123&lon=-78.543&key=$apiKey'));
 
       if (response.statusCode == 200) {
         // Request successful
         var jsonData = convert.jsonDecode(response.body);
 
+        // print(jsonData);
+
         output = jsonData['data']
-            .map((json) => WeatherDayModel.fromJSON(json))
+            .map((json) => WeatherDayModel.fromJSON(
+                name: jsonData['city_name'], json: json))
             .toList();
+        // output = createDummyForecast();
+        // print(output);
       } else if (response.statusCode == 429) {
         print('Error ${response.statusCode}: too many api calls');
         print('Using dummy data');
+
         output = createDummyForecast();
       } else {
         // Error handling for unsuccessful requests
@@ -37,6 +39,7 @@ class WeatherApiService {
       }
     } catch (e) {
       print('No worky :(');
+      output = createDummyForecast();
     }
     return output;
   }

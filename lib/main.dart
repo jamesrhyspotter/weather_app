@@ -8,12 +8,13 @@ import 'firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';
 
 late Box locationBox;
+late Box latLongBox;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
 
   await Hive.initFlutter();
   locationBox = await Hive.openBox('locationBox');
+  latLongBox = await Hive.openBox('latLongBox');
   runApp(const MyApp());
 }
 
@@ -22,10 +23,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Firebase.initializeApp(
-    //   options: DefaultFirebaseOptions.currentPlatform,
-    // );
-
     return MaterialApp(
       title: 'Weather App',
       debugShowCheckedModeBanner: false,

@@ -13,6 +13,7 @@ class WeatherViewController extends GetxController {
   RxDouble lat = RxDouble(0);
   RxDouble lon = RxDouble(0);
   RxString currentCity = RxString('');
+
   final WeatherApiService _weatherService = WeatherApiService();
 
   RxInt refreshDur = 60.obs;
@@ -28,8 +29,8 @@ class WeatherViewController extends GetxController {
   Future<List> fetchWeatherData({required String city, int count = 1}) async {
     List forcast = [];
     try {
-      forcast =
-          await _weatherService.fetchWeatherData(city: city, count: count);
+      forcast = await _weatherService.fetchWeatherData(
+          lat: 38.123, lon: -78.543, count: count);
     } catch (e) {}
 
     toggleRefreshRate(hasData: forcast.isNotEmpty);
