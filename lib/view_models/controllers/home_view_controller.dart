@@ -37,6 +37,7 @@ class HomeViewController extends GetxController {
 
   Future<List<String>> fetchLocations() async {
     List cities = usrRepo.getLocations();
+    cities.remove(closestCity.value);
     return [closestCity.value, ...cities];
   }
 
@@ -46,6 +47,14 @@ class HomeViewController extends GetxController {
 
   updatePageIndex({required int index}) {
     currentPageIndex.value = index;
+  }
+
+  toggleRefresh() async {
+    isLoading.value = true;
+    print(isLoading.value);
+    await Future.delayed(const Duration(seconds: 1));
+    isLoading.value = false;
+    print(isLoading.value);
   }
 
   @override

@@ -15,61 +15,71 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ctrl.onInit();
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: FutureBuilder<List<String>>(
-          future: ctrl.fetchLocations(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              var locations = snapshot.data;
-              return Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  CarouselSlider(
-                      carouselController: carouselController,
-                      options: CarouselOptions(
-                          onPageChanged: (index, reason) {
-                            ctrl.updatePageIndex(index: index);
-                          },
-                          enableInfiniteScroll: false,
-                          viewportFraction: 1.0,
-                          initialPage: 1,
-                          pageSnapping: true,
-                          height: MediaQuery.of(context).size.height),
-                      items: [
-                        AllLocations(locations: locations!),
-                        ...locations.map((loc) {
-                          List<double> latlon =
-                              ctrl.fetchLatLong(location: loc);
+    return Obx(
+      () => ctrl.isLoading.value
+          ? const SizedBox()
+          : Scaffold(
+              backgroundColor: Colors.black,
+              body: FutureBuilder<List<String>>(
+                  future: ctrl.fetchLocations(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (snapshot.hasData) {
+                      var locations = snapshot.data;
+                      return Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          CarouselSlider(
+                              carouselController: carouselController,
+                              options: CarouselOptions(
+                                  onPageChanged: (index, reason) {
+                                    ctrl.updatePageIndex(index: index);
+                                  },
+                                  enableInfiniteScroll: false,
+                                  viewportFraction: 1.0,
+                                  initialPage: 1,
+                                  pageSnapping: true,
+                                  height: MediaQuery.of(context).size.height),
+                              items: [
+                                AllLocations(locations: locations!),
+                                ...locations.map((loc) {
+                                  List<double> latlon =
+                                      ctrl.fetchLatLong(location: loc);
 
-                          print(loc);
-                          print(latlon[0]);
-                          print(latlon[1]);
-                          return WeatherView(
-                              location: loc,
-                              lat: latlon[0],
-                              lon: latlon[1],
-                              color: Colors.pink);
-                        }).toList(),
-                      ]),
-                  Obx(
-                    () => Positioned(
-                        top: 35,
-                        child: PageIndicator(
-                          index: ctrl.currentPageIndex.value,
-                          itemCount: locations.length + 1,
-                        )),
-                  )
-                ],
-              );
-            }
+                                  return WeatherView(
+                                      location: loc,
+                                      lat: latlon[0],
+                                      lon: latlon[1],
+                                      color: Colors.pink);
+                                }).toList(),
+                              ]),
+                          Obx(
+                            () => Positioned(
+                                top: 35,
+                                child: PageIndicator(
+                                  index: ctrl.currentPageIndex.value,
+                                  itemCount: locations!.length + 1,
+                                )),
+                          ),
+                          Positioned(
+                              top: 35,
+                              right: 20,
+                              child: IconButton(
+                                icon: const Icon(Icons.refresh),
+                                onPressed: () {
+                                  ctrl.toggleRefresh();
+                                },
+                              ))
+                        ],
+                      );
+                    }
 
-            return const Center(child: Text('Error Retreving data'));
-          }),
+                    return const Center(child: Text('Error Retreving data'));
+                  }),
+            ),
     );
   }
 }

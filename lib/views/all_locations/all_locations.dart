@@ -22,6 +22,7 @@ class AllLocations extends StatefulWidget {
 class _AllLocationsState extends State<AllLocations> {
   HomeViewController ctrl = Get.find<HomeViewController>();
   AllLocationsViewsController locCtrl = Get.put(AllLocationsViewsController());
+  HomeViewController homCtrl = Get.find<HomeViewController>();
   TextEditingController textCtrl = TextEditingController();
   List<String> searchResults = [];
 
@@ -56,6 +57,7 @@ class _AllLocationsState extends State<AllLocations> {
                             print(locCtrl.selectedLocations);
                             print(locCtrl.allCities[0][0]);
                             locCtrl.refresh();
+                            // homCtrl.refresh();
                           },
                         )
                       ],

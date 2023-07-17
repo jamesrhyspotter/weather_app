@@ -49,7 +49,7 @@ class WeatherView extends StatelessWidget {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: LocationWidget(location: weatherData![0].cityName),
+                    child: LocationWidget(location: location),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(
