@@ -40,7 +40,9 @@ class WeatherViewController extends GetxController {
     setLatLon(inputLat: lat, inputLon: lon);
     try {
       forcast = await _weatherService.fetchWeatherData(
-          lat: lat, lon: lon, count: count);
+        lat: lat,
+        lon: lon,
+      );
     } catch (e) {}
 
     toggleRefreshRate(hasData: forcast.isNotEmpty);

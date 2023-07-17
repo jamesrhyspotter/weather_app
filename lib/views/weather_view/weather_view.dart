@@ -1,15 +1,11 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
-import 'package:weather_app/models/helper_functions.dart';
-import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/view_models/controllers/weather_view_controller.dart';
 import 'package:weather_app/views/theme/type_face.dart';
 import 'package:weather_app/views/weather_view/widgets/date_widget.dart';
 import 'package:weather_app/views/weather_view/widgets/forecast_widget.dart';
 import 'package:weather_app/views/weather_view/widgets/info_icon.dart';
-import 'package:weather_app/views/weather_widget_view/weather_grid_list.dart';
 
 import 'widgets/location_widget.dart';
 

@@ -13,7 +13,7 @@ class PageIndicator extends StatefulWidget {
 class _PageIndicatorState extends State<PageIndicator> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 20,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
