@@ -1,7 +1,7 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/helper_functions.dart';
+import '../../../view_models/services/helper_functions.dart';
 import '../../theme/type_face.dart';
 
 class DateWidget extends StatelessWidget {
