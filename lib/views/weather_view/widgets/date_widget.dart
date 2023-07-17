@@ -6,6 +6,7 @@ import '../../theme/type_face.dart';
 
 class DateWidget extends StatelessWidget {
   final Color color;
+
   const DateWidget({super.key, required this.color});
 
   @override

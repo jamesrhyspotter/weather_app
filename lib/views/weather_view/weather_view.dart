@@ -187,11 +187,13 @@ class WeatherView extends StatelessWidget {
                                     delay:
                                         Duration(milliseconds: (250 * index)),
                                     child: ForecastWidget(
-                                      iconName: weatherData![index + 1].icon,
+                                      date: DateTime.now()
+                                          .add(Duration(days: index + 1)),
+                                      iconName: weatherData[index + 1].icon,
                                       data1:
-                                          '${weatherData![index + 1].maxTemp}°',
+                                          '${weatherData[index + 1].maxTemp}°',
                                       data2:
-                                          '${weatherData![index + 1].minTemp}°',
+                                          '${weatherData[index + 1].minTemp}°',
                                     ));
                               }),
                         )
