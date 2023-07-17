@@ -26,11 +26,21 @@ class WeatherViewController extends GetxController {
     startAutoRefresh();
   }
 
-  Future<List> fetchWeatherData({required String city, int count = 1}) async {
+  setLatLon({required double inputLat, required double inputLon}) {
+    lat.value = inputLat;
+    lon.value = inputLon;
+  }
+
+  Future<List> fetchWeatherData(
+      {required String city,
+      required double lat,
+      required double lon,
+      int count = 1}) async {
     List forcast = [];
+    setLatLon(inputLat: lat, inputLon: lon);
     try {
       forcast = await _weatherService.fetchWeatherData(
-          lat: 38.123, lon: -78.543, count: count);
+          lat: lat, lon: lon, count: count);
     } catch (e) {}
 
     toggleRefreshRate(hasData: forcast.isNotEmpty);
@@ -50,7 +60,9 @@ class WeatherViewController extends GetxController {
         Duration(seconds: refreshDur.value); // Specify the refresh interval
     _timer = Timer.periodic(refreshInterval, (_) {
       fetchWeatherData(
-          city: currentCity.value); // Fetch new data at each interval
+          city: currentCity.value,
+          lat: lat.value,
+          lon: lon.value); // Fetch new data at each interval
     });
   }
 

@@ -42,13 +42,19 @@ class HomePageView extends StatelessWidget {
                           height: MediaQuery.of(context).size.height),
                       items: [
                         AllLocations(locations: locations!),
-                        ...locations
-                            .map((loc) => WeatherView(
-                                location: loc,
-                                lat: 0,
-                                lon: 0,
-                                color: Colors.pink))
-                            .toList(),
+                        ...locations.map((loc) {
+                          List<double> latlon =
+                              ctrl.fetchLatLong(location: loc);
+
+                          print(loc);
+                          print(latlon[0]);
+                          print(latlon[1]);
+                          return WeatherView(
+                              location: loc,
+                              lat: latlon[0],
+                              lon: latlon[1],
+                              color: Colors.pink);
+                        }).toList(),
                       ]),
                   Obx(
                     () => Positioned(

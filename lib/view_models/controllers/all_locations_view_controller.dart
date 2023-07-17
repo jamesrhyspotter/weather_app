@@ -35,8 +35,11 @@ class AllLocationsViewsController extends GetxController {
         .toList();
   }
 
-  updateSelectedLocations({required String location}) async {
-    await usrRepo.updateLocationBox(location: location);
+  updateSelectedLocations(
+      {required String location,
+      required double lat,
+      required double lon}) async {
+    await usrRepo.updateLocationBox(location: location, lat: lat, lon: lon);
     selectedLocations.value = usrRepo.getLocations();
     print(selectedLocations);
   }

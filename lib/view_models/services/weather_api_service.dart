@@ -13,7 +13,7 @@ class WeatherApiService {
     List output = [];
     try {
       var response = await http.get(Uri.parse(
-          'https://api.weatherbit.io/v2.0/forecast/daily?lat=38.123&lon=-78.543&key=$apiKey'));
+          'https://api.weatherbit.io/v2.0/forecast/daily?lat=$lat&lon=$lon&key=$apiKey'));
 
       if (response.statusCode == 200) {
         // Request successful

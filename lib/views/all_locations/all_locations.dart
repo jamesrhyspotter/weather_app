@@ -50,8 +50,9 @@ class _AllLocationsState extends State<AllLocations> {
                               : locCtrl.searchResults,
                           isSelected: locCtrl.selectedLocations
                               .contains(locCtrl.allCities[0][0]),
-                          onToggle: (value) {
-                            locCtrl.updateSelectedLocations(location: value);
+                          onToggle: (value, lat, lon) {
+                            locCtrl.updateSelectedLocations(
+                                location: value, lat: lat, lon: lon);
                             print(locCtrl.selectedLocations);
                             print(locCtrl.allCities[0][0]);
                             locCtrl.refresh();

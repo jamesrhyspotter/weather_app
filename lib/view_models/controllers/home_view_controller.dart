@@ -29,7 +29,8 @@ class HomeViewController extends GetxController {
     closestCity.value =
         await _locationService.estimateClosestCity(lat.value, lon.value);
 
-    usrRepo.updateLocationBoxFromLocation(location: closestCity.value);
+    usrRepo.updateLocationBox(
+        location: closestCity.value, lat: lat.value, lon: lon.value);
 
     isLoading.value = false;
   }
@@ -37,6 +38,10 @@ class HomeViewController extends GetxController {
   Future<List<String>> fetchLocations() async {
     List cities = usrRepo.getLocations();
     return [closestCity.value, ...cities];
+  }
+
+  List<double> fetchLatLong({required String location}) {
+    return usrRepo.getLatLong(location: location) ?? [0, 0];
   }
 
   updatePageIndex({required int index}) {

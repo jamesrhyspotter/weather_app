@@ -29,7 +29,7 @@ class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
-      future: ctrl.fetchWeatherData(city: location),
+      future: ctrl.fetchWeatherData(city: location, lat: lat, lon: lon),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

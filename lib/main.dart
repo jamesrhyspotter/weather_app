@@ -14,7 +14,10 @@ void main() async {
 
   await Hive.initFlutter();
   locationBox = await Hive.openBox('locationBox');
-  latLongBox = await Hive.openBox('latLongBox');
+  latLongBox = await Hive.openBox('latLonBox');
+
+  locationBox.clear();
+  latLongBox.clear();
   runApp(const MyApp());
 }
 

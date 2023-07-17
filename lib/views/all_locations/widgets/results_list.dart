@@ -6,7 +6,7 @@ import '../../theme/type_face.dart';
 
 class ResultsList extends StatelessWidget {
   final List<dynamic> data;
-  final Function(String) onToggle;
+  final Function(String, double, double) onToggle;
   final bool isSelected;
   ResultsList(
       {super.key,
@@ -37,7 +37,10 @@ class ResultsList extends StatelessWidget {
                         color: Colors.pink,
                       )
                     : const SizedBox(),
-                onTap: () => onToggle(data[index + 1][0]),
+                onTap: () {
+                  onToggle(data[index + 1][0], double.parse(data[index + 1][2]),
+                      double.parse(data[index + 1][3]));
+                },
               );
             }),
       ),
