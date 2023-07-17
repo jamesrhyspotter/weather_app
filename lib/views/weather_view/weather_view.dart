@@ -49,7 +49,15 @@ class WeatherView extends StatelessWidget {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: LocationWidget(location: location),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage(
+                              'assets/icons/${weatherData![0].icon}.png'),
+                        ),
+                        LocationWidget(location: location),
+                      ],
+                    ),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(

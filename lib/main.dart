@@ -16,8 +16,6 @@ void main() async {
   locationBox = await Hive.openBox('locationBox');
   latLongBox = await Hive.openBox('latLonBox');
 
-  locationBox.clear();
-  latLongBox.clear();
   runApp(const MyApp());
 }
 
